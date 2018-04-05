@@ -1,6 +1,7 @@
 package ima.ulaval.ca.tp3_final;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
             viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
         }
         TextView textView = viewHolder.marqueTextView;
-        textView.setText(contact.getMarque());
+        textView.setText("sllo");
 
         textView = viewHolder.modelTextView;
         textView.setText(contact.getmModele());

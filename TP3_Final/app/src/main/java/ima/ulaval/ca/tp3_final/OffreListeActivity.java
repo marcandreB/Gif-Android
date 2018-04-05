@@ -32,20 +32,20 @@ public class OffreListeActivity extends AppCompatActivity {
         });
         Offre.setmMarqueRecherche(getIntent().getExtras().getString("Marque"));
         Offre.setmModeleRecherche(getIntent().getExtras().getString("Modele"));
-        RecyclerView rvMarques = (RecyclerView) findViewById(R.id.rvMarques);
-        rvMarques.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView rvOffres = (RecyclerView) findViewById(R.id.rvOffres);
+        rvOffres.setLayoutManager(new LinearLayoutManager(this));
         offres = Offre.createOffreListe();
         synchronized (this) {
             try {
                 wait(2000);
-                Log.d("Compte dans actibity :" , Modele.getCount());
-                rvMarques.setLayoutManager(new LinearLayoutManager(this));
+                Log.d("Compte dans actibity :" , Integer.toString(Offre.getCount()));
                 OffreAdapter adapter = new OffreAdapter(this, offres);
-                rvMarques.setAdapter(adapter);
+                rvOffres.setAdapter(adapter);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
 
