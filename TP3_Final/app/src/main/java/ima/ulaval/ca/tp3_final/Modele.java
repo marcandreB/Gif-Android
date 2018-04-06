@@ -29,11 +29,11 @@ public class Modele {
     public static String getMarque(){
         return mMarque;
     }
-    private static RecyclerView mRv;
-    private static Context mCont;
     public  static String getCount(){
         return Integer.toString(mModeles.size());
     }
+    public static RecyclerView mRv;
+    public static Context mCont;
 
 
     public String getName(){
@@ -49,12 +49,10 @@ public class Modele {
     public String toString(){
         return mName;
     }
-    private static  ArrayList<Modele> mModeles = new ArrayList<>();
+    public static  ArrayList<Modele> mModeles = new ArrayList<>();
 
-    public static ArrayList<Modele> createModeleList(RecyclerView rv, Context cont) {
+    public static ArrayList<Modele> createModeleList() {
         Log.d("Lol", "yo");
-        mRv = rv;
-        mCont = cont;
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://159.203.34.137:80/api/v1/models/")
@@ -62,7 +60,6 @@ public class Modele {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
             }
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
@@ -71,7 +68,7 @@ public class Modele {
                     response.priorResponse();
                 } else {
                     try {
-                        for (int i = 0; i <mModeles.size() ; i++){
+                        for (int i = 0; i < mModeles.size(); i++) {
                             mModeles.remove(i);
                         }
                         if (mModeles.size() > 0) Log.d("Lol", Integer.toString(mModeles.size()));
@@ -84,7 +81,7 @@ public class Modele {
                             JSONObject obj = array.getJSONObject(i);
                             JSONObject objChild = (JSONObject) obj.get("brand");
                             String name = objChild.getString("name");
-                            if (name.equals(mMarque)){
+                            if (name.equals(mMarque)) {
                                 String mod = obj.getString("name");
                                 mModeles.add(new Modele(mod));
                                 Log.d("Hehxvxe!", mod);
@@ -105,9 +102,9 @@ public class Modele {
                 }
             }
         });
-
         return mModeles;
     }
+
 
 /*
     public static ArrayList<Modele> createModeleList() {

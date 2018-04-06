@@ -52,13 +52,16 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
             viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
         }
         TextView textView = viewHolder.marqueTextView;
-        textView.setText("sllo");
+        textView.setText(contact.getMarque());
 
         textView = viewHolder.modelTextView;
         textView.setText(contact.getmModele());
 
         textView = viewHolder.prixTextView;
         textView.setText(contact.getPrix());
+
+        textView = viewHolder.idTextView;
+        textView.setText(String.valueOf(contact.getID()));
 
     }
 
@@ -70,6 +73,7 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView marqueTextView;
         public TextView modelTextView;
+        public TextView idTextView;
         public TextView prixTextView;
         public LinearLayout nameLayout;
 
@@ -78,7 +82,18 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
             marqueTextView = (TextView) itemView.findViewById(R.id.marque_name);
             modelTextView = (TextView) itemView.findViewById(R.id.modele_name);
             prixTextView = (TextView) itemView.findViewById(R.id.prix_name);
+            idTextView = (TextView) itemView.findViewById(R.id.id_name);
             nameLayout = (LinearLayout) itemView.findViewById(R.id.lol);
+            nameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,DescriptionActivity.class);
+                    Log.d("textview", idTextView.getText().toString() );
+                    intent.putExtra("ID", idTextView.getText());
+                    mContext.startActivity(intent);
+                }
+
+            });
         }
         @Override
         public void onClick(View view) {

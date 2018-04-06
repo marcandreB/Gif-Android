@@ -22,8 +22,13 @@ import okhttp3.Response;
 
 public class Marque {
     private String mName;
-    public Marque(String name) {
+    private String mID;
+    public Marque(String name, String ID) {
         mName = name;
+        mID = ID;
+    }
+    public String getID(){
+        return mID;
     }
     public String getName() {
         return mName;
@@ -52,7 +57,7 @@ public class Marque {
                         JSONObject jsonResponse = new JSONObject(response.body().string());
                         JSONArray array = jsonResponse.getJSONArray("content");
                         for (int i = 0; i < array.length(); i++) {
-                           Marque nouvelleMarque = new Marque(array.getJSONObject(i).getString("name"));
+                           Marque nouvelleMarque = new Marque(array.getJSONObject(i).getString("name"),array.getJSONObject(i).getString("id"));
                            marqueListe.add(nouvelleMarque);
                         }
                     } catch (JSONException e) {

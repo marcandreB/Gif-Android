@@ -3,6 +3,7 @@ package ima.ulaval.ca.tp3_final;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //Préparation du contenu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -56,22 +57,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-*/
-        //Préparation de la liste
-
-        RecyclerView rvMarques = (RecyclerView) findViewById(R.id.rvMarques);
-        marques = Marque.createMarqueList( rvMarques, this);
-        synchronized (this){
-            try {
-                wait(500);
-                rvMarques.setLayoutManager(new LinearLayoutManager(this));
-                MarqueAdapter adapter = new MarqueAdapter(this, marques);
-                rvMarques.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
@@ -120,9 +105,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            Log.d("posituib",  Integer.toString(position));
+            if (position ==1){
+                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                MarqueFragment  fragment = new MarqueFragment();
+                fragmentTransaction.add(R.id.container, fragment);
+                fragmentTransaction.commit();
+                Log.d("odfsfk", "heh");
+                return MarqueFragment.newInstance();
+            }
+           if (position == 2){
+               android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+               FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+               VendreFragment  fragment = new VendreFragment();
+               fragmentTransaction.replace(R.id.container, fragment);
+               fragmentTransaction.commit();
+               Log.d("odfsfk", "heh");
+               return VendreFragment.newInstance();
+           }
+            return MarqueFragment.newInstance();
         }
 
         @Override

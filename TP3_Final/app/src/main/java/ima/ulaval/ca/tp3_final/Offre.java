@@ -26,16 +26,18 @@ public class Offre {
     private Image mImage;
     private String mPrix;
     private String mMarque;
+    private int mID;
     private String mModele;
 
     private static String mMarqueRecherche;
     private static String mModeleRecherche;
 
 
-    public Offre(String pPrix, String pMarque, String pModele){
+    public Offre(String pPrix, String pMarque, String pModele, int ID){
         this.mPrix = pPrix;
         this.mMarque = pMarque;
         this.mModele = pModele;
+        this.mID = ID;
     }
     public static ArrayList<Offre> mOffres = new ArrayList<>();
     public void setName(Image pImage){
@@ -69,10 +71,14 @@ public class Offre {
     public String getMarque(){
         return this.mMarque;
     }
+    public int getID(){
+        return this.mID;
+    }
 
     public static int getCount(){
         return mOffres.size();
     }
+    @Override
     public String toString(){
         return mMarque + mModele;
     }
@@ -94,9 +100,6 @@ public class Offre {
                     response.priorResponse();
                 } else {
                     try {
-                        for (int i = 0; i <mOffres.size() ; i++){
-                            mOffres.remove(i);
-                        }
                         mOffres = new ArrayList<Offre>();
                         JSONObject jsonResponse = new JSONObject(response.body().string());
                         JSONArray array = jsonResponse.getJSONArray("content");
@@ -109,7 +112,7 @@ public class Offre {
                             //Log.d("Marque", "Trouve : " + nameBrand + "   Cherche : " + mMarqueRecherche + "   : Modele :" + mModeleRecherche);
                             if (nameBrand.equals(mModeleRecherche)){
                                 String prix = obj.getString("price");
-                                mOffres.add(new Offre(prix, nameBrand, nameModel));
+                                //mOffres.add(new Offre(prix, nameBrand, nameModel));
                             }
 
                         }
