@@ -67,7 +67,7 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 
 public class VendreFragment extends Fragment {
-    
+
     private OnFragmentInteractionListener mListener;
     private ArrayList<Marque> marques = new ArrayList<>();
     private Spinner mSpinnerMarque;

@@ -1,16 +1,13 @@
 package ima.ulaval.ca.tp3_final;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +32,6 @@ public class SelfAnnonceFragment extends Fragment {
 
 
     public SelfAnnonceFragment() {
-        // Required empty public constructor
     }
 
     public static SelfAnnonceFragment newInstance() {
@@ -51,7 +47,6 @@ public class SelfAnnonceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_self_annonce, container, false);
         mRvOffres = view.findViewById(R.id.rvMarques);
         OffreAdapter adap = new OffreAdapter(getContext(), offres);
@@ -60,7 +55,6 @@ public class SelfAnnonceFragment extends Fragment {
         fetchData(view);
         return view;
     }
-
 
     private void fetchData(View view){
         OkHttpClient client = new OkHttpClient();
@@ -102,12 +96,9 @@ public class SelfAnnonceFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-
-                    // Display the requested data on UI in main thread
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("ok", "heh");
                             mRvOffres.setLayoutManager(new LinearLayoutManager(getContext()));
                             mAdapter = new OffreAdapter(getContext(), offres);
                             mRvOffres.setAdapter(mAdapter);
@@ -123,11 +114,8 @@ public class SelfAnnonceFragment extends Fragment {
         super.onAttach(context);
 
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
     }
-
-
 }

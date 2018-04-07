@@ -3,9 +3,6 @@ package ima.ulaval.ca.tp3_final;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-/**
- * Created by Meh on 2018-04-06.
- */
 
 public class UnitOffre {
     private String marque;
