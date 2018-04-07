@@ -52,10 +52,10 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
         textView.setText(contact.getmModele() +  " " + contact.getMarque());
 
         textView = viewHolder.prixTextView;
-        textView.setText(contact.getPrix());
+        textView.setText("Prix : " + contact.getPrix() + "$");
 
         textView = viewHolder.idTextView;
-        textView.setText(String.valueOf(contact.getID()));
+        textView.setText(String.valueOf("Offre : " + contact.getID()));
 
 
     }
@@ -82,7 +82,9 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext,DescriptionActivity.class);
                     Log.d("textview", idTextView.getText().toString() );
-                    intent.putExtra("ID", idTextView.getText());
+                    String id = idTextView.getText().toString();
+                    id = id.substring(8,id.length());
+                    intent.putExtra("ID", id);
                     mContext.startActivity(intent);
                 }
 

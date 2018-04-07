@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="marque"
-        android:textColor="@color/colorRouge3"
         android:textSize="16sp" />
 
     <TextView
@@ -25,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="marque"
-        android:textColor="@color/colorRouge3"
         android:textSize="16sp" />
 
     <TextView
@@ -34,6 +32,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="prix"
-        android:textColor="@color/colorRouge3"
         android:textSize="16sp"/>
 </LinearLayout>

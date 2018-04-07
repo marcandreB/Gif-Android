@@ -67,7 +67,7 @@ public class SelfAnnonceFragment extends Fragment {
         MultipartBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("seller", "111120022")
-                .addFormDataPart("offer", "false")
+                .addFormDataPart("offer", "true")
                 .build();
         Request request = new Request.Builder()
                 .url("http://159.203.34.137:80/api/v1/offers/search/")

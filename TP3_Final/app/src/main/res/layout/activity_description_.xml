@@ -25,6 +25,7 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_height="match_parent">
     <include layout="@layout/content_description_" />
 </android.support.v4.widget.NestedScrollView>

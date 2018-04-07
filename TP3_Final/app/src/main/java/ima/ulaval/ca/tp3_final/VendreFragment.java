@@ -3,6 +3,8 @@ package ima.ulaval.ca.tp3_final;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -53,10 +56,17 @@ public class VendreFragment extends Fragment {
     private HashMap<Integer, String> mSpinnerModeleMap= new HashMap<>();
 
     private Spinner mSpinnerTransmission;
+    private boolean mClicDescription = true;
     private EditText mPrix;
     private EditText mAnnee;
-    private EditText mDescription;
     private Button mButtonEnvoyer;
+    private Button btnPicture;
+
+    private TextView tvMarque;
+    private TextView tvModele;
+    private TextView tvPrix;
+    private TextView tvTransmission;
+    private TextView tvAnnee;
     @SuppressLint("UseSparseArrays")
     Activity mActivity;
     public VendreFragment() {
@@ -195,6 +205,11 @@ public class VendreFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_vendre, container, false);
         mSpinnerMarque = view.findViewById(R.id.spinnerMarque);
+        tvMarque = view.findViewById(R.id.TVMarque);
+        tvModele = view.findViewById(R.id.TVModele);
+        tvPrix = view.findViewById(R.id.TVPrix);
+        tvTransmission = view.findViewById(R.id.TVMarque);
+        tvAnnee = view.findViewById(R.id.TVAnnee);
         mSpinnerModele = view.findViewById(R.id.spinnerModele);
         mSpinnerTransmission = view.findViewById(R.id.spinnerTransmission);
         mSpinnerMarque.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -234,12 +249,55 @@ public class VendreFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         mSpinnerTransmission.setAdapter(adapter);
         mAnnee = view.findViewById(R.id.txtAnnee);
-        mDescription = view.findViewById(R.id.txtDescription);
         mPrix = view.findViewById(R.id.txtPrix);
         mButtonEnvoyer = view.findViewById(R.id.btnEnvoyer);
+
         mButtonEnvoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean valide = true;
+                if (mSpinnerMarque.getSelectedItem() == null){
+                    tvMarque.setTextColor(getResources().getColor(R.color.colorRouge1));
+                    valide = false;
+                    Toast.makeText(getActivity(), "Veuillez choisir une marque!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                    tvMarque.setTextColor(Color.BLACK);
+                if (mSpinnerModele.getSelectedItem() == null){
+                    valide = false;
+                    tvMarque.setTextColor(getResources().getColor(R.color.colorRouge1));
+                    Toast.makeText(getActivity(), "Veuillez choisir un modele!!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                    tvMarque.setTextColor(Color.BLACK);
+                if (mPrix.getText().toString().trim().length() < 1){
+                    valide = false;
+                    tvPrix.setTextColor(getResources().getColor(R.color.colorRouge1));
+                    Toast.makeText(getActivity(), "Veuillez inscrire un prix!!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                    tvPrix.setTextColor(Color.BLACK);
+                if (mSpinnerTransmission.getSelectedItem() == null){
+                    valide = false;
+                    tvTransmission.setTextColor(getResources().getColor(R.color.colorRouge1));
+                    Toast.makeText(getActivity(), "Veuillez choisir une transmission plz!!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                    tvTransmission.setTextColor(Color.BLACK);
+                if (mAnnee.getText().toString().trim().length() < 1){
+                    valide = false;
+                    tvAnnee.setTextColor(getResources().getColor(R.color.colorRouge1));
+                    Toast.makeText(getActivity(), "Veuillez inscrire une annee!!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                    tvAnnee.setTextColor(Color.BLACK);
+                if (!valide)
+                    return;
                 OkHttpClient client = new OkHttpClient();
                 MultipartBody body = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -265,12 +323,16 @@ public class VendreFragment extends Fragment {
                         if (!response.isSuccessful()) {
                             response.priorResponse();
                         } else {
-                            Log.d("success", "yass");
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(getActivity(), "Votre annonce est bien affichee!",
                                             Toast.LENGTH_LONG).show();
+                                    Log.d("success", "yass");
+                                    Intent intent = new Intent(getContext(),DescriptionActivity.class);
+                                    intent.putExtra("ID", "nouveau");
+                                    getContext().startActivity(intent);
+
                                 }
                             });
                         }
