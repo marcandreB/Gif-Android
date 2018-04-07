@@ -67,10 +67,7 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 
 public class VendreFragment extends Fragment {
-
-
-    private static final int SELECT_PHOTO = 100;
-    private static final int PERMISSION_REQUEST_CODE = 1;
+    
     private OnFragmentInteractionListener mListener;
     private ArrayList<Marque> marques = new ArrayList<>();
     private Spinner mSpinnerMarque;
@@ -83,31 +80,17 @@ public class VendreFragment extends Fragment {
     private HashMap<Integer, String> mSpinnerModeleMap = new HashMap<>();
 
     private Spinner mSpinnerTransmission;
-    private boolean mClicDescription = true;
     private EditText mPrix;
     private EditText mAnnee;
     private Button mButtonEnvoyer;
-    private Button MbtnPicture;
 
     private TextView tvMarque;
     private TextView tvModele;
     private TextView tvPrix;
     private TextView tvTransmission;
     private TextView tvAnnee;
-    private ImageView mImageView;
-    private Image mImage;
-    private Context contextOfApplication;
     @SuppressLint("UseSparseArrays")
     Activity mActivity;
-
-    public static final int PICK_IMAGE = 1;
-    private String selectedImagePath = "";
-    private ImageView imgUser;
-    private String imgPath;
-    private Uri imageURI;
-    private int MY_PERMISSIONS_REQUEST_READ_CONTACTS;
-    private int RESULT_LOAD_IMAGE;
-
     public VendreFragment() {
     }
 
@@ -138,7 +121,6 @@ public class VendreFragment extends Fragment {
                     response.priorResponse();
                 } else {
                     try {
-                        Log.d("entre", "hehdfdsfsde");
                         JSONObject jsonResponse = new JSONObject(response.body().string());
                         JSONArray array = jsonResponse.getJSONArray("content");
                         for (int i = 0; i < array.length(); i++) {
@@ -150,8 +132,6 @@ public class VendreFragment extends Fragment {
                     }
                 }
 
-
-                // Display the requested data on UI in main thread
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -162,11 +142,9 @@ public class VendreFragment extends Fragment {
                             mSpinnerMapMarque.put(i, currentMarque.getID());
                             spinnerArray[i] = currentMarque.getName();
                         }
-                        Log.d("entre", "YOURE SUPPOSE TO HELP");
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                         mSpinnerMarque.setAdapter(adapter);
-                        Log.d("marque size", Integer.toString(marques.size()));
                     }
                 });
             }
@@ -197,7 +175,6 @@ public class VendreFragment extends Fragment {
                     response.priorResponse();
                 } else {
                     try {
-                        Log.d("entre", "hehdfdsfsde");
                         JSONObject jsonResponse = new JSONObject(response.body().string());
                         JSONArray array = jsonResponse.getJSONArray("content");
                         for (int i = 0; i < array.length(); i++) {
@@ -209,8 +186,6 @@ public class VendreFragment extends Fragment {
                     }
                 }
 
-
-                // Display the requested data on UI in main thread
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -221,11 +196,9 @@ public class VendreFragment extends Fragment {
                             mSpinnerModeleMap.put(i, currentModele.getID());
                             spinnerArray[i] = currentModele.getName();
                         }
-                        Log.d("entre", "YOURE SUPPOSE TO HELP");
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, spinnerArray);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                         mSpinnerModele.setAdapter(adapter);
-                        Log.d("modelee size", mSpinnerModeleMap.get(mSpinnerModele.getSelectedItemPosition()));
 
 
                     }
@@ -235,7 +208,6 @@ public class VendreFragment extends Fragment {
         });
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -260,7 +232,6 @@ public class VendreFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
 
         });
@@ -268,7 +239,6 @@ public class VendreFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 mModele_ID = mSpinnerModeleMap.get(mSpinnerModele.getSelectedItemPosition());
-                Log.d("MAsdffffffffffffffffffffffffffffffffffJ", "MAJ");
             }
 
             @Override
@@ -288,28 +258,7 @@ public class VendreFragment extends Fragment {
         mSpinnerTransmission.setAdapter(adapter);
         mAnnee = view.findViewById(R.id.txtAnnee);
         mPrix = view.findViewById(R.id.txtPrix);
-        MbtnPicture = view.findViewById(R.id.btnPicture);
-        MbtnPicture.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    Log.d("Aucune permission", "deja demande");
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{permission.READ_EXTERNAL_STORAGE},
-                            MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                }
-                else{
-                    Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, RESULT_LOAD_IMAGE);
-                }
-            }
-        });
-
         mButtonEnvoyer = view.findViewById(R.id.btnEnvoyer);
-
         mButtonEnvoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -381,7 +330,6 @@ public class VendreFragment extends Fragment {
                                 public void run() {
                                     Toast.makeText(getActivity(), "Votre annonce est bien affichee!",
                                             Toast.LENGTH_LONG).show();
-                                    Log.d("success", "yass");
                                     Intent intent = new Intent(getContext(), DescriptionActivity.class);
                                     intent.putExtra("ID", "nouveau");
                                     getContext().startActivity(intent);
@@ -396,12 +344,6 @@ public class VendreFragment extends Fragment {
 
         });
         return view;
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -419,46 +361,7 @@ public class VendreFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(final int requestCode,
-                                           String permissions[], int[] grantResults) {
-        if(requestCode ==  MY_PERMISSIONS_REQUEST_READ_CONTACTS) {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, RESULT_LOAD_IMAGE);
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
-        }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            mImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-        }
     }
 
 }
