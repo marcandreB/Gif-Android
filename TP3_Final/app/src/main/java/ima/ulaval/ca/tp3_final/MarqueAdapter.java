@@ -2,7 +2,12 @@ package ima.ulaval.ca.tp3_final;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,7 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
     private List<Marque> mMarque;
     private Context mContext;
     private boolean backgroundColorTrigger = true;
+    public static Layout mLayout;
 
     public MarqueAdapter(Context context, List<Marque>  marques) {
         mMarque = marques;
@@ -41,12 +47,8 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
     public void onBindViewHolder(MarqueAdapter.ViewHolder viewHolder, int position) {
         Marque contact = mMarque.get(position);
 
-        if (backgroundColorTrigger) {
+        if (contact.getPosition() % 2 == 0) {
             viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-            backgroundColorTrigger = false;
-        }
-        else{
-            backgroundColorTrigger = true;
         }
         TextView textView = viewHolder.nameTextView;
         textView.setText(contact.getName());
@@ -69,9 +71,18 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
             nameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                Intent intent = new Intent(mContext,ModeleActivity.class);
-                intent.putExtra("Marque", nameTextView.getText().toString());
-                mContext.startActivity(intent);
+                    /*
+                    AppCompatActivity activity123 = (AppCompatActivity) view.getContext();
+                    ModeleFragment myFragment = new ModeleFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("marque", nameTextView.getText().toString());
+                    myFragment.setArguments(bundle);
+                    activity123.getSupportFragmentManager().beginTransaction().replace(R.id.container, myFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
+                    Log.d("ok", "oh man");
+                    */
+                    Intent intent = new Intent(getContext(), ModeleActivity.class);
+                    intent.putExtra("marque", nameTextView.getText().toString());
+                    getContext().startActivity(intent);
                 }
 
             });

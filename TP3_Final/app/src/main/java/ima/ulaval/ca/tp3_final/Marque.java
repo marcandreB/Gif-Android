@@ -23,15 +23,22 @@ import okhttp3.Response;
 public class Marque {
     private String mName;
     private String mID;
+    private int mPosition;
+    private static int position = 0;
     public Marque(String name, String ID) {
         mName = name;
         mID = ID;
+        mPosition = position;
+        position++;
     }
     public String getID(){
         return mID;
     }
     public String getName() {
         return mName;
+    }
+    public int getPosition(){
+        return mPosition;
     }
     public ArrayList<Marque> getMarqueListe(){
         return marqueListe;

@@ -1,11 +1,15 @@
 package ima.ulaval.ca.tp3_final;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,45 +24,44 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ModeleActivity extends AppCompatActivity {
+
+public class ModeleFragment extends Fragment {
 
     private ArrayList<Modele> modeles;
     private RecyclerView rv;
-    private String marque;
+    public String marque;
     private Context mContext;
 
+    public ModeleFragment() {
+        // Required empty public constructor
+    }
+    public static ModeleFragment newInstance() {
+        ModeleFragment fragment = new ModeleFragment();
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            marque = bundle.getString("marque");
+        }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modele);
-        mContext = getApplicationContext();
-        /*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
-        Modele.setMarque(getIntent().getExtras().getString("marque"));
-        marque = getIntent().getExtras().getString("marque");
-        rv = (RecyclerView) findViewById(R.id.rvMarques);
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-        //Modele.createModeleList();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        final View view = inflater.inflate(R.layout.fragment_modele, container, false);
+        rv = view.findViewById(R.id.rvMarques);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        ModeleAdapter ada = new ModeleAdapter(getContext(), modeles);
+        rv.setAdapter(ada);
         fetchData();
+        return view;
     }
 
-    public void updateUi(ArrayList<Modele> mod){
-        modeles = mod;
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        ModeleAdapter adapter = new ModeleAdapter(this, modeles);
-        rv.setAdapter(adapter);
-    }
 
     public void fetchData(){
         OkHttpClient client = new OkHttpClient();
@@ -80,9 +83,7 @@ public class ModeleActivity extends AppCompatActivity {
                 if(!response.isSuccessful()){
                     throw new IOException("Error : " + response);
                 }else {
-                    Log.d("Lol", "yaaaaaaao");
                     modeles = new ArrayList<Modele>();
-                    Log.d("Lol", "yaaaaaaao");
                     JSONObject jsonResponse = null;
                     try {
                         jsonResponse = new JSONObject(response.body().string());
@@ -139,19 +140,34 @@ public class ModeleActivity extends AppCompatActivity {
 
 
                 // Display the requested data on UI in main thread
-                ModeleActivity.this.runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Log.d("ok", "heh");
-                        rv.setLayoutManager(new LinearLayoutManager(mContext));
-                        ModeleAdapter adapter = new ModeleAdapter(mContext, modeles);
+                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+                        ModeleAdapter adapter = new ModeleAdapter(getContext(), modeles);
                         rv.setAdapter(adapter);
                     }
                 });
             }
         });
     }
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
 
 }

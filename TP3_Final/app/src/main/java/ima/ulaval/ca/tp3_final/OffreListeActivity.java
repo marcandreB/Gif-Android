@@ -55,69 +55,66 @@ public class OffreListeActivity extends AppCompatActivity {
         Offre.setmMarqueRecherche(marque);
         rv = (RecyclerView) findViewById(R.id.rvMarques);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        OffreAdapter ada = new OffreAdapter(this, offreListe);
         fetchData();
     }
 
         public void fetchData(){
-        OkHttpClient client = new OkHttpClient();
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url("http://159.203.34.137:80/api/v1/offers/")
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        response.priorResponse();
+                    } else {
+                        try {
+                            Log.d("On entre!", "'yas!");
+                            offreListe = new ArrayList<Offre>();
+                            JSONObject jsonResponse = new JSONObject(response.body().string());
+                            JSONArray array = jsonResponse.getJSONArray("content");
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject obj = array.getJSONObject(i);
+                                JSONObject objChild = (JSONObject) obj.get("model");
+                                String nameBrand = objChild.getString("name");
+                                JSONObject objChildBrand = (JSONObject) objChild.get("brand");
+                                String nameModel = objChildBrand.getString("name");
+                                //Log.d("Marque", "Trouve : " + nameBrand + "   Cherche : " + mMarqueRecherche + "   : Modele :" + mModeleRecherche);
+                                if (nameBrand.equals(modele)){
+                                    String prix = obj.getString("price");
+                                    offreListe.add(new Offre(prix, nameBrand, nameModel, obj.getString("id")));
+                                }
 
-        // Initialize a new Request
-        Request request = new Request.Builder()
-                .url("http://159.203.34.137:80/api/v1/offers/")
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                // Do something when request failed
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    response.priorResponse();
-                } else {
-                    try {
-                        offreListe = new ArrayList<Offre>();
-                        JSONObject jsonResponse = new JSONObject(response.body().string());
-                        JSONArray array = jsonResponse.getJSONArray("content");
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            Integer ID = obj.getInt("id");
-                            Log.d("id :" , ID.toString());
-                            JSONObject objChild = (JSONObject) obj.get("model");
-                            String nameBrand = objChild.getString("name");
-                            JSONObject objChildBrand = (JSONObject) objChild.get("brand");
-                            String nameModel = objChildBrand.getString("name");
-                            if (nameBrand.equals(modele)) {
-                                String prix = obj.getString("price");
-                                offreListe.add(new Offre(prix, nameBrand, nameModel, ID));
-                                Log.d("ajoute", "heh");
+                            }
+                            Log.d("Nombre", Integer.toString(Offre.getCount()));
+                            for (int i = 0; i < Offre.mOffres.size(); i++){
+                                Log.d("Offre" + Integer.toString(i), offreListe.toString());
                             }
 
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Log.d("Nombre", Integer.toString(offreListe.size()));
-                        for (int i = 0; i < offreListe.size(); i++) {
-                            Log.d("Offre" + Integer.toString(i), offreListe.toString());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
-
                     // Display the requested data on UI in main thread
                     OffreListeActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Log.d("ok", "heh");
+                            rv.setLayoutManager(new LinearLayoutManager(mContext));
                             OffreAdapter adapter = new OffreAdapter(mContext, offreListe);
                             rv.setAdapter(adapter);
                         }
                     });
                 }
-             }
-        });
+
+            });
     }
 
 

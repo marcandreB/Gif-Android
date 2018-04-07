@@ -26,21 +26,19 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class MarqueFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private RecyclerView mRvMarques;
-    private ArrayList<Marque> marques = new ArrayList<>();
-    private MarqueAdapter mAdapter;
+public class SelfAnnonceFragment extends Fragment {
+    private RecyclerView mRvOffres;
+    private ArrayList<Offre> offres = new ArrayList<>();
+    private OffreAdapter mAdapter;
+    private Context mContext;
 
 
-    public MarqueFragment() {
+    public SelfAnnonceFragment() {
         // Required empty public constructor
     }
-    public static MarqueFragment newInstance() {
-        MarqueFragment fragment = new MarqueFragment();
+
+    public static SelfAnnonceFragment newInstance() {
+        SelfAnnonceFragment fragment = new SelfAnnonceFragment();
         return fragment;
     }
 
@@ -53,11 +51,11 @@ public class MarqueFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_marque, container, false);
-        mRvMarques = view.findViewById(R.id.rvMarques);
-        mRvMarques.setLayoutManager(new LinearLayoutManager(getContext()));
-        MarqueAdapter ada = new MarqueAdapter(getContext(), marques);
-        mRvMarques.setAdapter(ada);
+        final View view = inflater.inflate(R.layout.fragment_self_annonce, container, false);
+        mRvOffres = view.findViewById(R.id.rvMarques);
+        OffreAdapter adap = new OffreAdapter(getContext(), offres);
+        mRvOffres.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvOffres.setAdapter(adap);
         fetchData(view);
         return view;
     }
@@ -66,7 +64,7 @@ public class MarqueFragment extends Fragment {
     private void fetchData(View view){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://159.203.34.137:80/api/v1/brands/")
+                .url("http://159.203.34.137:80/api/v1/offers/")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -79,32 +77,38 @@ public class MarqueFragment extends Fragment {
                     response.priorResponse();
                 } else {
                     try {
+                        offres = new ArrayList<Offre>();
                         JSONObject jsonResponse = new JSONObject(response.body().string());
                         JSONArray array = jsonResponse.getJSONArray("content");
                         for (int i = 0; i < array.length(); i++) {
-                            Marque nouvelleMarque = new Marque(array.getJSONObject(i).getString("name"), array.getJSONObject(i).getString("id"));
-                            marques.add(nouvelleMarque);
+                            JSONObject obj = array.getJSONObject(i);
+                            String id = obj.getString("id");
+                            JSONObject objChild = (JSONObject) obj.get("model");
+                            String nameBrand = objChild.getString("name");
+                            JSONObject objChildBrand = (JSONObject) objChild.get("brand");
+                            String nameModel = objChildBrand.getString("name");
+                            String prix = obj.getString("price");
+                            offres.add(new Offre(prix, nameBrand, nameModel, id));
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter = new MarqueAdapter(getContext(), marques);
-                        mRvMarques.setAdapter(mAdapter);
-                        Log.d("nombre", Integer.toString(mRvMarques.getChildCount()));
-                        Log.d("nombre", Integer.toString(marques.size()));
-                    }
-                });
+
+                    // Display the requested data on UI in main thread
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("ok", "heh");
+                            mRvOffres.setLayoutManager(new LinearLayoutManager(getContext()));
+                            mAdapter = new OffreAdapter(getContext(), offres);
+                            mRvOffres.setAdapter(mAdapter);
+                        }
+                    });
+                }
             }
         });
-    }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-
     }
 
     @Override
@@ -112,7 +116,6 @@ public class MarqueFragment extends Fragment {
         super.onAttach(context);
 
     }
-
 
     @Override
     public void onDetach() {

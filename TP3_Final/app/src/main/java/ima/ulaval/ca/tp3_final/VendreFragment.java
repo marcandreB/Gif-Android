@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -264,8 +265,16 @@ public class VendreFragment extends Fragment {
                             response.priorResponse();
                         } else {
                             Log.d("success", "yass");
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getActivity(), "Votre annonce est bien affichee!",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     }
+
                 });
             }
 

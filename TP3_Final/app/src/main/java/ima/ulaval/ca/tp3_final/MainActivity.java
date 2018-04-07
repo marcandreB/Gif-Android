@@ -110,31 +110,21 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Log.d("posituib",  Integer.toString(position));
             if (position ==0){
-                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                MarqueFragment  fragment = new MarqueFragment();
-                fragmentTransaction.add(R.id.container, fragment);
-                fragmentTransaction.commit();
-                Log.d("odfsfk", "heh");
-                fragmentTransaction.addToBackStack(null);
+
                 return MarqueFragment.newInstance();
+
             }
            if (position == 1){
-               for(Fragment fragment:getSupportFragmentManager().getFragments()){
 
-                   getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-               }
-               android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-               FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-               VendreFragment  fragment = new VendreFragment();
-               fragmentTransaction.add(R.id.container, fragment);
-               fragmentTransaction.commit();
-               Log.d("oddfgfdgdfggdfsfk", "heh");
-               fragmentTransaction.addToBackStack(null);
                return VendreFragment.newInstance();
+
            }
+            if (position == 2){
+                return SelfAnnonceFragment.newInstance();
+
+            }
            Log.d("Spas suppose", "god stop");
-            return MarqueFragment.newInstance();
+            return SelfAnnonceFragment.newInstance();
 
         }
 
