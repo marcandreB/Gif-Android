@@ -108,6 +108,7 @@ public class ModeleActivity extends AppCompatActivity {
                         JSONObject objChild = null;
                         try {
                             objChild = (JSONObject) obj.get("brand");
+                            String id;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -124,7 +125,13 @@ public class ModeleActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            modeles.add(new Modele(mod));
+                            String id = null;
+                            try {
+                                id = objChild.getString("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            modeles.add(new Modele(mod,id));
                             Log.d("Hehxvxe!", mod);
                             Log.d("modele size", Integer.toString(modeles.size()));
                         }

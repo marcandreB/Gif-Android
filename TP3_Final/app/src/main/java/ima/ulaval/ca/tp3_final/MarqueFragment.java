@@ -36,7 +36,6 @@ public class MarqueFragment extends Fragment {
     private MarqueAdapter mAdapter;
 
 
-
     public MarqueFragment() {
         // Required empty public constructor
     }
@@ -61,17 +60,6 @@ public class MarqueFragment extends Fragment {
     }
 
 
-    private void feathbruh(View view){
-        for (int i = 0; i < 100; i++){
-            marques.add(new Marque(Integer.toString(i),Integer.toString(i)));
-        }
-        mRvMarques = (RecyclerView) view.findViewById(R.id.rvMarques);
-        mRvMarques.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new MarqueAdapter(getActivity(), marques);
-        mRvMarques.setAdapter(mAdapter);
-        Log.d("nombre", Integer.toString(mRvMarques.getChildCount()));
-        Log.d("nombre", Integer.toString(marques.size()));
-    }
     private void fetchData(View view){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -122,6 +110,15 @@ public class MarqueFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        //mContainer.removeAllViews();
+        ViewGroup mContainer = (ViewGroup) getActivity().findViewById(R.id.container);
+        mContainer.removeAllViews();
+        Log.d("appeler", "gdf");
+        super.onDestroyView();
     }
 
     @Override

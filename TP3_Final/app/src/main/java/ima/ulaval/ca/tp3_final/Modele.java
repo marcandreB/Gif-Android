@@ -25,6 +25,7 @@ import okhttp3.Response;
 
 public class Modele {
     private static String mMarque;
+    private String mID;
     private String mName;
     public static String getMarque(){
         return mMarque;
@@ -39,11 +40,15 @@ public class Modele {
     public String getName(){
         return mName;
     }
+    public String getID(){
+        return mID;
+    }
     public static void setMarque(String marque){
         mMarque = marque;
     }
-    public Modele(String name){
+    public Modele(String name, String ID){
         this.mName = name;
+        this.mID = ID;
     }
     @Override
     public String toString(){
@@ -81,9 +86,10 @@ public class Modele {
                             JSONObject obj = array.getJSONObject(i);
                             JSONObject objChild = (JSONObject) obj.get("brand");
                             String name = objChild.getString("name");
+                            String ID = objChild.getString("id");
                             if (name.equals(mMarque)) {
                                 String mod = obj.getString("name");
-                                mModeles.add(new Modele(mod));
+                                mModeles.add(new Modele(mod, ID));
                                 Log.d("Hehxvxe!", mod);
                                 Log.d("modele size", Integer.toString(mModeles.size()));
                             }

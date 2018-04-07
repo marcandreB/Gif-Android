@@ -1,5 +1,6 @@
 package ima.ulaval.ca.tp3_final;
 
+import android.app.TabActivity;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -103,28 +104,38 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
         }
 
+
+
         @Override
         public Fragment getItem(int position) {
             Log.d("posituib",  Integer.toString(position));
-            if (position ==1){
+            if (position ==0){
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 MarqueFragment  fragment = new MarqueFragment();
                 fragmentTransaction.add(R.id.container, fragment);
                 fragmentTransaction.commit();
                 Log.d("odfsfk", "heh");
+                fragmentTransaction.addToBackStack(null);
                 return MarqueFragment.newInstance();
             }
-           if (position == 2){
+           if (position == 1){
+               for(Fragment fragment:getSupportFragmentManager().getFragments()){
+
+                   getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+               }
                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                VendreFragment  fragment = new VendreFragment();
-               fragmentTransaction.replace(R.id.container, fragment);
+               fragmentTransaction.add(R.id.container, fragment);
                fragmentTransaction.commit();
-               Log.d("odfsfk", "heh");
+               Log.d("oddfgfdgdfggdfsfk", "heh");
+               fragmentTransaction.addToBackStack(null);
                return VendreFragment.newInstance();
            }
+           Log.d("Spas suppose", "god stop");
             return MarqueFragment.newInstance();
+
         }
 
         @Override
