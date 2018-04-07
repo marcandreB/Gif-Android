@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -36,9 +35,7 @@ public class OffreListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_offre_liste);
         mContext = getApplicationContext();
         marque =(getIntent().getExtras().getString("Marque"));
-        Offre.setmModeleRecherche(modele);
         modele = (getIntent().getExtras().getString("Modele"));
-        Offre.setmMarqueRecherche(marque);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(marque + " " + modele);

@@ -22,13 +22,10 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
 
     private List<Marque> mMarque;
     private Context mContext;
-    private boolean backgroundColorTrigger = true;
-    public static Layout mLayout;
 
     public MarqueAdapter(Context context, List<Marque>  marques) {
         mMarque = marques;
         mContext = context;
-        Log.d("heh", "sssssdggju");
     }
     private Context getContext() {
         return mContext;
@@ -46,7 +43,6 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
     @Override
     public void onBindViewHolder(MarqueAdapter.ViewHolder viewHolder, int position) {
         Marque contact = mMarque.get(position);
-
         TextView textView = viewHolder.nameTextView;
         textView.setText(contact.getName());
 
@@ -59,24 +55,13 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView nameTextView;
         public LinearLayout nameLayout;
-
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.contact_name);
             nameLayout = (LinearLayout) itemView.findViewById(R.id.lol);
-
             nameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*
-                    AppCompatActivity activity123 = (AppCompatActivity) view.getContext();
-                    ModeleFragment myFragment = new ModeleFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("marque", nameTextView.getText().toString());
-                    myFragment.setArguments(bundle);
-                    activity123.getSupportFragmentManager().beginTransaction().replace(R.id.container, myFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).addToBackStack(null).commit();
-                    Log.d("ok", "oh man");
-                    */
                     Intent intent = new Intent(getContext(), ModeleActivity.class);
                     intent.putExtra("marque", nameTextView.getText().toString());
                     getContext().startActivity(intent);

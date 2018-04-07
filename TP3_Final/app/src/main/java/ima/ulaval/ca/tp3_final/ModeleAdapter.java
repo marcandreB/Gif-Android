@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
- * Created by Meh on 2018-04-04.
- */
 
 public class ModeleAdapter extends RecyclerView.Adapter<ModeleAdapter.ViewHolder> {
 
@@ -25,11 +22,9 @@ public class ModeleAdapter extends RecyclerView.Adapter<ModeleAdapter.ViewHolder
     public ModeleAdapter(Context context, List<Modele>  modeles) {
         mModele = modeles;
         mContext = context;
-        Log.d("heh", "sssssdggju");
     }
     public ModeleAdapter(List<Modele>  modeles) {
         mModele = modeles;
-        Log.d("heh", "sssssdggju");
     }
     private Context getContext() {
         return mContext;
@@ -47,17 +42,14 @@ public class ModeleAdapter extends RecyclerView.Adapter<ModeleAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ModeleAdapter.ViewHolder viewHolder, int position) {
         Modele contact = mModele.get(position);
-
         TextView textView = viewHolder.nameTextView;
         textView.setText(contact.getName());
-
     }
 
     @Override
     public int getItemCount() {
         return mModele.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView nameTextView;
         public LinearLayout nameLayout;

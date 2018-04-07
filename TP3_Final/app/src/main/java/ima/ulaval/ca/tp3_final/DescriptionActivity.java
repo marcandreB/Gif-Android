@@ -62,17 +62,13 @@ public class DescriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_description_);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
         this.mOffreID =  getIntent().getExtras().getString("ID");
         getSupportActionBar().setTitle("Offre numero : " + mOffreID);
-        Log.d("id", mOffreID.toString());
         getTV();
         if (!this.mOffreID.equals("nouveau")) {
-            Log.d("id", "Cest pas nouveau");
             fetchData();
         }
         else{
-            Log.d("id", "entre!");
             getLastOffre();
         }
 
@@ -121,7 +117,6 @@ public class DescriptionActivity extends AppCompatActivity {
                             }
                         }
                         mOffreID = Integer.toString(maxID);
-                        Log.d("offre", mOffreID);
                         fetchData();
                     } catch (JSONException e) {
                         e.printStackTrace();

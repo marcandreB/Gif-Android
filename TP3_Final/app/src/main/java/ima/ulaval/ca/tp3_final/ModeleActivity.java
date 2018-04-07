@@ -33,41 +33,17 @@ public class ModeleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modele);
         mContext = getApplicationContext();
-        /*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
         Modele.setMarque(getIntent().getExtras().getString("marque"));
         marque = getIntent().getExtras().getString("marque");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(marque);
         rv = (RecyclerView) findViewById(R.id.rvMarques);
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-        //Modele.createModeleList();
         fetchData();
-    }
-
-    public void updateUi(ArrayList<Modele> mod){
-        modeles = mod;
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        ModeleAdapter adapter = new ModeleAdapter(this, modeles);
-        rv.setAdapter(adapter);
     }
 
     public void fetchData(){
         OkHttpClient client = new OkHttpClient();
-
-        // Initialize a new Request
         Request request = new Request.Builder()
                 .url("http://159.203.34.137:80/api/v1/models/")
                 .build();
@@ -84,9 +60,7 @@ public class ModeleActivity extends AppCompatActivity {
                 if(!response.isSuccessful()){
                     throw new IOException("Error : " + response);
                 }else {
-                    Log.d("Lol", "yaaaaaaao");
                     modeles = new ArrayList<Modele>();
-                    Log.d("Lol", "yaaaaaaao");
                     JSONObject jsonResponse = null;
                     try {
                         jsonResponse = new JSONObject(response.body().string());
@@ -99,8 +73,6 @@ public class ModeleActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d("marque", marque);
-                    Log.d("modele size avant for", Integer.toString(modeles.size()));
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = null;
                         try {
@@ -135,18 +107,14 @@ public class ModeleActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             modeles.add(new Modele(mod,id));
-                            Log.d("Hehxvxe!", mod);
-                            Log.d("modele size", Integer.toString(modeles.size()));
                         }
                     }
                 }
-
 
                 // Display the requested data on UI in main thread
                 ModeleActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("ok", "heh");
                         rv.setLayoutManager(new LinearLayoutManager(mContext));
                         ModeleAdapter adapter = new ModeleAdapter(mContext, modeles);
                         rv.setAdapter(adapter);
@@ -155,7 +123,4 @@ public class ModeleActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

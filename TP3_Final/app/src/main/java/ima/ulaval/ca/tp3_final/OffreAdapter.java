@@ -15,10 +15,6 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-/**
- * Created by Meh on 2018-04-04.
- */
-
 public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> {
 
     private List<Offre> mOffres;
@@ -56,8 +52,6 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
 
         textView = viewHolder.idTextView;
         textView.setText(String.valueOf("Offre : " + contact.getID()));
-
-
     }
 
     @Override
@@ -81,7 +75,6 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext,DescriptionActivity.class);
-                    Log.d("textview", idTextView.getText().toString() );
                     String id = idTextView.getText().toString();
                     id = id.substring(8,id.length());
                     intent.putExtra("ID", id);

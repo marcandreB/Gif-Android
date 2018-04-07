@@ -27,17 +27,11 @@ import okhttp3.Response;
 
 
 public class MarqueFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private RecyclerView mRvMarques;
     private ArrayList<Marque> marques = new ArrayList<>();
     private MarqueAdapter mAdapter;
 
-
     public MarqueFragment() {
-        // Required empty public constructor
     }
     public static MarqueFragment newInstance() {
         MarqueFragment fragment = new MarqueFragment();
@@ -52,7 +46,6 @@ public class MarqueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_marque, container, false);
         mRvMarques = view.findViewById(R.id.rvMarques);
         mRvMarques.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -95,29 +88,18 @@ public class MarqueFragment extends Fragment {
                     public void run() {
                         mAdapter = new MarqueAdapter(getContext(), marques);
                         mRvMarques.setAdapter(mAdapter);
-                        Log.d("nombre", Integer.toString(mRvMarques.getChildCount()));
-                        Log.d("nombre", Integer.toString(marques.size()));
                     }
                 });
             }
         });
     }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
     }
-
-
     @Override
     public void onDetach() {
         super.onDetach();
     }
-
-
 }

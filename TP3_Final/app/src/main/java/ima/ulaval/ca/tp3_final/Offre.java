@@ -29,10 +29,6 @@ public class Offre {
     private String mID;
     private String mModele;
 
-    private static String mMarqueRecherche;
-    private static String mModeleRecherche;
-
-
     public Offre(String pPrix, String pMarque, String pModele, String ID){
         this.mPrix = pPrix;
         this.mMarque = pMarque;
@@ -43,25 +39,10 @@ public class Offre {
     public void setName(Image pImage){
         this.mImage = pImage;
     }
-    public void setmPrix(String pPrix){
-        this.mPrix =pPrix;
-    }
-    public void setModele(String pModele){
-        this.mModele = pModele;
-    }
     public void setMarque(String pMarque){
         this.mMarque = pMarque;
     }
-    public static void setmMarqueRecherche(String pMarqueRecherche){
-        mMarqueRecherche = pMarqueRecherche;
-    }
-    public static void setmModeleRecherche(String pModeleRecherche){
-        mModeleRecherche = pModeleRecherche;
-    }
 
-    public Image getImage(){
-        return this.mImage;
-    }
     public String getPrix(){
         return this.mPrix;
     }
@@ -75,63 +56,10 @@ public class Offre {
         return this.mID;
     }
 
-    public static int getCount(){
-        return mOffres.size();
-    }
     @Override
     public String toString(){
         return mMarque + mModele;
     }
 
-
-    public static ArrayList<Offre> createOffreListe() {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url("http://159.203.34.137:80/api/v1/offers/")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    response.priorResponse();
-                } else {
-                    try {
-                        Log.d("On entre!", "'yas!");
-                        mOffres = new ArrayList<Offre>();
-                        JSONObject jsonResponse = new JSONObject(response.body().string());
-                        JSONArray array = jsonResponse.getJSONArray("content");
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            JSONObject objChild = (JSONObject) obj.get("model");
-                            String nameBrand = objChild.getString("name");
-                            JSONObject objChildBrand = (JSONObject) objChild.get("brand");
-                            String nameModel = objChildBrand.getString("name");
-                            //Log.d("Marque", "Trouve : " + nameBrand + "   Cherche : " + mMarqueRecherche + "   : Modele :" + mModeleRecherche);
-                            if (nameBrand.equals(mModeleRecherche)){
-                                String prix = obj.getString("price");
-                                mOffres.add(new Offre(prix, nameBrand, nameModel, obj.getString("id")));
-                            }
-
-                        }
-                        Log.d("Nombre", Integer.toString(Offre.getCount()));
-                        for (int i = 0; i < Offre.mOffres.size(); i++){
-                            Log.d("Offre" + Integer.toString(i), mOffres.toString());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        return retourneOffres();
-    }
-
-    private static ArrayList<Offre> retourneOffres(){
-        return mOffres;
-    }
 
 }
