@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -63,8 +64,14 @@ public class SelfAnnonceFragment extends Fragment {
 
     private void fetchData(View view){
         OkHttpClient client = new OkHttpClient();
+        MultipartBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("seller", "111120022")
+                .addFormDataPart("offer", "false")
+                .build();
         Request request = new Request.Builder()
-                .url("http://159.203.34.137:80/api/v1/offers/")
+                .url("http://159.203.34.137:80/api/v1/offers/search/")
+                .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

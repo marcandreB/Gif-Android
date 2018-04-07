@@ -11,34 +11,29 @@
     >
 
     <TextView
-        android:id="@+id/prix_name"
+        android:id="@+id/id_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="prix" />
-
-    <TextView
-        android:id="@+id/modele_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="modele" />
+        android:text="marque"
+        android:textColor="@color/colorRouge3"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/marque_name"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="marque"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp" />
+        android:textColor="@color/colorRouge3"
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/id_name"
+        android:id="@+id/prix_name"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="marque"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp" />
+        android:text="prix"
+        android:textColor="@color/colorRouge3"
+        android:textSize="16sp"/>
 </LinearLayout>

@@ -246,6 +246,7 @@ public class VendreFragment extends Fragment {
                         .addFormDataPart("transmission", mSpinnerTransmission.getSelectedItem().toString())
                         .addFormDataPart("price", mPrix.getText().toString())
                         .addFormDataPart("year", mAnnee.getText().toString())
+                        .addFormDataPart("offer", "true")
                         .addFormDataPart("seller", "111120022")
                         .addFormDataPart("model", mSpinnerModeleMap.get(mSpinnerModele.getSelectedItemPosition()))
                         .build();

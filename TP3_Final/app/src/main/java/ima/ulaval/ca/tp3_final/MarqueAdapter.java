@@ -47,9 +47,6 @@ public class MarqueAdapter extends RecyclerView.Adapter<MarqueAdapter.ViewHolder
     public void onBindViewHolder(MarqueAdapter.ViewHolder viewHolder, int position) {
         Marque contact = mMarque.get(position);
 
-        if (contact.getPosition() % 2 == 0) {
-            viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-        }
         TextView textView = viewHolder.nameTextView;
         textView.setText(contact.getName());
 

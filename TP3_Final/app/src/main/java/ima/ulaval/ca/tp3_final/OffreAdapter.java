@@ -48,20 +48,15 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
     public void onBindViewHolder(OffreAdapter.ViewHolder viewHolder, int position) {
         Offre contact = mOffres.get(position);
 
-        if (position % 2 ==0){
-            viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-        }
         TextView textView = viewHolder.marqueTextView;
-        textView.setText(contact.getMarque());
-
-        textView = viewHolder.modelTextView;
-        textView.setText(contact.getmModele());
+        textView.setText(contact.getmModele() +  " " + contact.getMarque());
 
         textView = viewHolder.prixTextView;
         textView.setText(contact.getPrix());
 
         textView = viewHolder.idTextView;
         textView.setText(String.valueOf(contact.getID()));
+
 
     }
 
@@ -72,7 +67,6 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView marqueTextView;
-        public TextView modelTextView;
         public TextView idTextView;
         public TextView prixTextView;
         public LinearLayout nameLayout;
@@ -80,7 +74,6 @@ public class OffreAdapter extends RecyclerView.Adapter<OffreAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             marqueTextView = (TextView) itemView.findViewById(R.id.marque_name);
-            modelTextView = (TextView) itemView.findViewById(R.id.modele_name);
             prixTextView = (TextView) itemView.findViewById(R.id.prix_name);
             idTextView = (TextView) itemView.findViewById(R.id.id_name);
             nameLayout = (LinearLayout) itemView.findViewById(R.id.lol);

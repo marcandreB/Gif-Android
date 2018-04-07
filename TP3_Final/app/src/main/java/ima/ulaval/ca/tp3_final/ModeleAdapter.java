@@ -48,9 +48,6 @@ public class ModeleAdapter extends RecyclerView.Adapter<ModeleAdapter.ViewHolder
     public void onBindViewHolder(ModeleAdapter.ViewHolder viewHolder, int position) {
         Modele contact = mModele.get(position);
 
-        if (position % 2 ==0){
-            viewHolder.nameLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-        }
         TextView textView = viewHolder.nameTextView;
         textView.setText(contact.getName());
 

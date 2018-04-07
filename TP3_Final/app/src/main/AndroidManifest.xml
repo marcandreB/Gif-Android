@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -33,6 +34,8 @@
             android:name=".DescriptionActivity"
             android:label="@string/title_activity_description_"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
     </application>
 
 </manifest>

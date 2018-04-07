@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -47,6 +48,9 @@ public class ModeleActivity extends AppCompatActivity {
 */
         Modele.setMarque(getIntent().getExtras().getString("marque"));
         marque = getIntent().getExtras().getString("marque");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(marque);
         rv = (RecyclerView) findViewById(R.id.rvMarques);
         //rv.setLayoutManager(new LinearLayoutManager(this));
         //Modele.createModeleList();

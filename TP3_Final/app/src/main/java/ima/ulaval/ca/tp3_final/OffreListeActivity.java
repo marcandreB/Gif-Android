@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,9 @@ public class OffreListeActivity extends AppCompatActivity {
         Offre.setmModeleRecherche(modele);
         modele = (getIntent().getExtras().getString("Modele"));
         Offre.setmMarqueRecherche(marque);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(marque + " " + modele);
         rv = (RecyclerView) findViewById(R.id.rvMarques);
         rv.setLayoutManager(new LinearLayoutManager(this));
         OffreAdapter ada = new OffreAdapter(this, offreListe);
@@ -98,6 +102,7 @@ public class OffreListeActivity extends AppCompatActivity {
                             }
 
 
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -107,6 +112,11 @@ public class OffreListeActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Log.d("ok", "heh");
+                            if (offreListe.size() == 0){
+                                Toast.makeText(getApplicationContext(), "Aucune annonce pour ce modele, veuillez en choisir un autre!",
+                                        Toast.LENGTH_LONG).show();
+                                onBackPressed();
+                            }
                             rv.setLayoutManager(new LinearLayoutManager(mContext));
                             OffreAdapter adapter = new OffreAdapter(mContext, offreListe);
                             rv.setAdapter(adapter);
